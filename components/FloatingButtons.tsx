@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, Phone } from "lucide-react";
 import { track } from "@vercel/analytics";
-import { site, whatsappLink } from "@/data/site";
+import { useSite } from "@/components/SiteSettingsProvider";
+import { useIsStudio } from "@/components/useIsStudio";
 
 /** How far the user has to scroll before the buttons fade in. */
 const REVEAL_AFTER_PX = 300;
 
 export default function FloatingButtons() {
+  /** The company details, resolved on the server and shared via context. */
+  const site = useSite();
+  /** True while the embedded Studio is open. */
+  const isStudio = useIsStudio();
   /** True once the user has scrolled past the reveal threshold. */
   const [isVisible, setIsVisible] = useState(false);
 
@@ -26,6 +31,9 @@ export default function FloatingButtons() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // The Studio gets the full browser window — no site chrome.
+  if (isStudio) return null;
+
   return (
     // `z-40` keeps the buttons above the page content but below the navbar.
     <div className="fixed bottom-4 right-4 z-40 flex flex-col items-center gap-3 sm:bottom-6 sm:right-6">
@@ -41,7 +49,7 @@ export default function FloatingButtons() {
           >
             {/* --- WhatsApp ------------------------------------------- */}
             <a
-              href={whatsappLink()}
+              href={site.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => track("whatsapp_click", { location: "floating_button" })}

@@ -11,7 +11,7 @@ import {
   Timer,
   Wallet,
 } from "lucide-react";
-import { projects, getProjectBySlug, getAdjacentProjects } from "@/data/projects";
+import { getAdjacentProjects, getProjectBySlug, getProjects } from "@/sanity/lib/fetch";
 import { SITE_URL } from "@/data/site";
 import ProjectGallery from "@/components/ProjectGallery";
 
@@ -20,22 +20,35 @@ interface ProjectPageProps {
 }
 
 /**
- * Every project page is pre-rendered at build time.
- * Unknown slugs are rejected by the router itself, which returns a real
+ * Every known project page is pre-rendered at build time and then
+ * refreshed in the background every 60 seconds.
+ */
+export const revalidate = 60;
+
+/**
+ * New slugs are rendered on demand, so a project added in the Sanity
+ * Studio goes live without a redeploy. Unknown slugs still return a real
  * HTTP 404 (the branded `app/not-found.tsx` page is rendered).
  */
-export const dynamicParams = false;
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+export async function generateStaticParams() {
+  const allProjects = await getProjects();
+
+  return allProjects.map((project) => ({ slug: project.slug }));
 }
 
 /** Per-project title, description and Open Graph image. */
-export function generateMetadata({ params }: ProjectPageProps): Metadata {
-  const project = getProjectBySlug(params.slug);
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const project = await getProjectBySlug(params.slug);
 
+  // An unknown slug is a 404. Throwing from `generateMetadata` (outside the
+  // page component) lets Next.js answer with a real HTTP 404 status and
+  // render the branded `app/not-found.tsx` page on its own.
   if (!project) {
-    return { title: "Project Not Found" };
+    notFound();
   }
 
   const description = project.description.split("\n")[0];
@@ -61,15 +74,15 @@ export function generateMetadata({ params }: ProjectPageProps): Metadata {
   };
 }
 
-export default function ProjectDetailPage({ params }: ProjectPageProps) {
-  const project = getProjectBySlug(params.slug);
+export default async function ProjectDetailPage({ params }: ProjectPageProps) {
+  const project = await getProjectBySlug(params.slug);
 
   // Branded 404 for unknown slugs.
   if (!project) {
     notFound();
   }
 
-  const { prev, next } = getAdjacentProjects(project.slug);
+  const { prev, next } = await getAdjacentProjects(project.slug);
 
   const details = [
     { icon: MapPin, label: "Location", value: project.location },
@@ -87,7 +100,7 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
         <div className="absolute inset-0">
           <Image
             src={project.image}
-            alt={project.title}
+            alt={project.imageAlt || project.title}
             fill
             priority
             sizes="100vw"

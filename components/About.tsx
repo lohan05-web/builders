@@ -15,8 +15,9 @@ import {
   aboutImage,
   companyStory,
   founder,
-  team,
+  team as fallbackTeam,
   trustBadges,
+  type TeamMember,
   type TrustIconName,
 } from "@/data/about";
 
@@ -33,7 +34,20 @@ const badgeIcons: Record<TrustIconName, LucideIcon> = {
   KeyRound,
 };
 
-export default function About() {
+interface AboutProps {
+  /**
+   * The people shown in the “The people on your site” row.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  team: TeamMember[];
+}
+
+export default function About({ team }: AboutProps) {
+  // Never render an empty team row — fall back to the local team.
+  const members = team.length > 0 ? team : fallbackTeam;
+
   return (
     <section
       id="about"
@@ -156,7 +170,7 @@ export default function About() {
             }}
             className="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4"
           >
-            {team.map((member) => (
+            {members.map((member) => (
               <motion.div
                 key={member.id}
                 variants={{
@@ -172,7 +186,7 @@ export default function About() {
                 <div className="relative mx-auto h-28 w-28 overflow-hidden rounded-full border-2 border-white/15 transition-all duration-500 ease-smooth group-hover:border-gold group-hover:shadow-lg group-hover:shadow-gold/15 sm:h-32 sm:w-32">
                   <Image
                     src={member.photo}
-                    alt={member.name}
+                    alt={member.photoAlt || member.name}
                     fill
                     sizes="(max-width: 639px) 28vw, 128px"
                     className="object-cover"

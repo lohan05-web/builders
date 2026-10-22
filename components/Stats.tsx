@@ -8,7 +8,8 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { stats } from "@/data/site";
+import { stats as fallbackStats } from "@/data/site";
+import type { SiteStat } from "@/sanity/lib/types";
 
 /** How long the count-up tween runs, in seconds. */
 const COUNT_DURATION = 1.8;
@@ -78,7 +79,20 @@ function StatItem({ value, suffix, label }: StatItemProps) {
   );
 }
 
-export default function Stats() {
+interface StatsProps {
+  /**
+   * The key figures shown in the gold band.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  stats: SiteStat[];
+}
+
+export default function Stats({ stats }: StatsProps) {
+  // Never render an empty band — fall back to the local figures.
+  const items = stats.length > 0 ? stats : fallbackStats;
+
   return (
     <section
       aria-label="Company statistics"
@@ -93,7 +107,7 @@ export default function Stats() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* 2 columns on mobile -> 4 columns on desktop */}
         <dl className="grid grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat, index) => (
+          {items.map((stat, index) => (
             <div
               key={stat.id}
               className={[

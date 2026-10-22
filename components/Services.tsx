@@ -10,7 +10,7 @@ import {
   PaintRoller,
   type LucideIcon,
 } from "lucide-react";
-import { services, type ServiceIconName } from "@/data/services";
+import { services as fallbackServices, type Service, type ServiceIconName } from "@/data/services";
 
 /**
  * Maps each service's icon name to its lucide-react component.
@@ -53,7 +53,20 @@ const headingVariants: Variants = {
   },
 };
 
-export default function Services() {
+interface ServicesProps {
+  /**
+   * The services catalogue.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  services: Service[];
+}
+
+export default function Services({ services }: ServicesProps) {
+  // Never render an empty grid — fall back to the local catalogue.
+  const items = services.length > 0 ? services : fallbackServices;
+
   return (
     <section
       id="services"
@@ -88,7 +101,7 @@ export default function Services() {
           viewport={{ once: true, amount: 0.15 }}
           className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {services.map((service) => {
+          {items.map((service) => {
             const Icon = serviceIcons[service.icon];
 
             return (

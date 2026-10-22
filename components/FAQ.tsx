@@ -3,12 +3,25 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { faqs } from "@/data/faqs";
+import { faqs as fallbackFaqs, type FaqItem } from "@/data/faqs";
 
 /** Shared easing curve. */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function FAQ() {
+interface FAQProps {
+  /**
+   * The questions and answers shown in the accordion.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  faqs: FaqItem[];
+}
+
+export default function FAQ({ faqs }: FAQProps) {
+  // Never render an empty accordion — fall back to the local questions.
+  const items = faqs.length > 0 ? faqs : fallbackFaqs;
+
   /** Id of the currently open item — only one is open at a time. */
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -38,7 +51,7 @@ export default function FAQ() {
 
         {/* --- Accordion -------------------------------------------------- */}
         <div className="mt-14 divide-y divide-white/5 rounded-sm border border-white/10">
-          {faqs.map((item) => {
+          {items.map((item) => {
             const isOpen = openId === item.id;
             const buttonId = `faq-button-${item.id}`;
             const panelId = `faq-panel-${item.id}`;

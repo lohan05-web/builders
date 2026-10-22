@@ -6,6 +6,9 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
+        // The embedded Studio is a private admin tool — keep it out of the
+        // search results.
+        disallow: ["/studio", "/studio/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

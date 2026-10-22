@@ -25,6 +25,13 @@ export interface Project {
   location: string;
   /** Unsplash image URL (already sized for the lightbox). */
   image: string;
+  /**
+   * Alternative text for the main photo.
+   *
+   * Comes from the CMS when the project is managed in Sanity; empty for the
+   * local fallback data, in which case the title is used instead.
+   */
+  imageAlt?: string;
   /** Built area in square feet. */
   area: number;
   /** Year of completion. */

@@ -1,15 +1,21 @@
 import { SITE_URL } from "@/data/site";
-import { projects } from "@/data/projects";
+import { getProjects } from "@/sanity/lib/fetch";
 
-export const revalidate = 86400;
+/**
+ * The sitemap is regenerated once an hour so newly published projects are
+ * picked up by search engines quickly.
+ */
+export const revalidate = 3600;
 
-export default function sitemap() {
+export default async function sitemap() {
   const now = new Date().toISOString();
 
   const staticRoutes = [
     { url: SITE_URL, changeFrequency: "weekly" as const, priority: 1 },
     { url: `${SITE_URL}/privacy-policy`, changeFrequency: "yearly" as const, priority: 0.6 },
   ];
+
+  const projects = await getProjects();
 
   const projectRoutes = projects.map((project) => ({
     url: `${SITE_URL}/projects/${project.slug}`,

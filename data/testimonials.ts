@@ -21,6 +21,13 @@ export interface Testimonial {
   quote: string;
   /** Unsplash portrait URL. */
   photo: string;
+  /**
+   * Alternative text for the portrait.
+   *
+   * Comes from the CMS when the testimonial is managed in Sanity; empty for
+   * the local fallback data, in which case the client's name is used.
+   */
+  photoAlt?: string;
   /** Star rating out of five. */
   rating: Rating;
 }

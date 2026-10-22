@@ -16,7 +16,6 @@ import {
   Phone,
   Send,
 } from "lucide-react";
-import { site } from "@/data/site";
 import {
   budgetOptions,
   contactProjectTypes,
@@ -27,6 +26,7 @@ import {
   type ContactFormErrors,
   type ContactFormValues,
 } from "@/data/contact";
+import { useSite } from "@/components/SiteSettingsProvider";
 import { socialIcons, socialLabels, type SocialNetwork } from "./SocialIcons";
 
 /** The order fields are checked in, so the first error can be focused. */
@@ -128,6 +128,8 @@ function Field({
 }
 
 export default function Contact() {
+  /** The company details, resolved on the server and shared via context. */
+  const site = useSite();
   /** Current field values. */
   const [values, setValues] = useState<ContactFormValues>(emptyContactForm);
   /** Inline validation messages. */

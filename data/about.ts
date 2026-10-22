@@ -52,6 +52,13 @@ export interface TeamMember {
   role: string;
   /** Unsplash portrait URL. */
   photo: string;
+  /**
+   * Alternative text for the portrait.
+   *
+   * Comes from the CMS when the team member is managed in Sanity; empty for
+   * the local fallback data, in which case the name is used instead.
+   */
+  photoAlt?: string;
 }
 
 export const team: TeamMember[] = [

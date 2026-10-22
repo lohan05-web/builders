@@ -1,10 +1,28 @@
-import { faqs } from "@/data/faqs";
+import { faqs as fallbackFaqs, type FaqItem } from "@/data/faqs";
 
-export default function FaqJsonLd() {
+interface FaqJsonLdProps {
+  /**
+   * The questions and answers published as structured data.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  faqs: FaqItem[];
+}
+
+/**
+ * The FAQ structured data (`FAQPage`).
+ *
+ * It is what lets Google show the questions and answers directly in the
+ * search results.
+ */
+export default function FaqJsonLd({ faqs }: FaqJsonLdProps) {
+  const items = faqs.length > 0 ? faqs : fallbackFaqs;
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
+    mainEntity: items.map((faq) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: {

@@ -5,7 +5,7 @@ import {
   validateContactForm,
   type ContactFormValues,
 } from "@/data/contact";
-import { site } from "@/data/site";
+import { getSiteSettings } from "@/sanity/lib/fetch";
 
 /**
  * Simple in-memory rate limiting.
@@ -122,6 +122,9 @@ export async function POST(request: Request) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const contactToEmail = process.env.CONTACT_TO_EMAIL;
   const contactFromEmail = process.env.CONTACT_FROM_EMAIL;
+
+  // The company name comes from the CMS (falling back to the local copy).
+  const site = await getSiteSettings({ revalidate: false });
 
   if (resendApiKey && contactToEmail && contactFromEmail) {
     try {

@@ -4,7 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { animate, motion, useMotionValue } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
-import { testimonials } from "@/data/testimonials";
+import {
+  testimonials as fallbackTestimonials,
+  type Testimonial,
+} from "@/data/testimonials";
 
 /** Gap between cards in px — must match the `gap` used on the track. */
 const CARD_GAP = 24;
@@ -31,8 +34,20 @@ function visibleFor(width: number): number {
   return 1;
 }
 
-export default function Testimonials() {
-  const count = testimonials.length;
+interface TestimonialsProps {
+  /**
+   * The client testimonials shown in the carousel.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  testimonials: Testimonial[];
+}
+
+export default function Testimonials({ testimonials }: TestimonialsProps) {
+  // Never render an empty carousel — fall back to the local testimonials.
+  const items = testimonials.length > 0 ? testimonials : fallbackTestimonials;
+  const count = items.length;
 
   // --- Layout measurement -------------------------------------------------
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -271,7 +286,7 @@ export default function Testimonials() {
             >
               {slots.map((slot) => {
                 // A slot wraps around the end of the testimonial list.
-                const item = testimonials[((slot % count) + count) % count];
+                const item = items[((slot % count) + count) % count];
 
                 return (
                   <article
@@ -310,7 +325,7 @@ export default function Testimonials() {
                       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-gold">
                         <Image
                           src={item.photo}
-                          alt={item.name}
+                          alt={item.photoAlt || item.name}
                           fill
                           sizes="56px"
                           className="object-cover"
@@ -348,7 +363,7 @@ export default function Testimonials() {
 
             {/* Dots */}
             <div className="flex items-center gap-2.5" role="tablist" aria-label="Choose testimonial">
-              {testimonials.map((item, index) => (
+              {items.map((item, index) => (
                 <button
                   key={item.id}
                   type="button"

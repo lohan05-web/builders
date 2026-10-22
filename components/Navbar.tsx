@@ -6,13 +6,19 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
 import { track } from "@vercel/analytics";
-import { navLinks, site } from "@/data/site";
+import { navLinks } from "@/data/site";
+import { useSite } from "@/components/SiteSettingsProvider";
+import { useIsStudio } from "@/components/useIsStudio";
 
 /** Pixels scrolled before the navbar switches to its solid/blurred state. */
 const SCROLL_THRESHOLD = 24;
 
 export default function Navbar() {
   const pathname = usePathname();
+  /** The company details, resolved on the server and shared via context. */
+  const site = useSite();
+  /** True while the embedded Studio is open. */
+  const isStudio = useIsStudio();
   /** True once the user has scrolled past the top of the page. */
   const [isScrolled, setIsScrolled] = useState(false);
   /** Controls the mobile slide-in drawer. */
@@ -51,6 +57,9 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+
+  // The Studio gets the full browser window — no site chrome.
+  if (isStudio) return null;
 
   return (
     <>

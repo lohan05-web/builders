@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site, SITE_URL, lastUpdated } from "@/data/site";
+import { SITE_URL, lastUpdated } from "@/data/site";
+import { getSiteSettings } from "@/sanity/lib/fetch";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: `How ${site.name} collects, uses and protects your personal information.`,
-  alternates: {
-    canonical: `${SITE_URL}/privacy-policy`,
-  },
-  openGraph: {
-    title: `Privacy Policy | ${site.name}`,
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteSettings();
+
+  return {
+    title: "Privacy Policy",
     description: `How ${site.name} collects, uses and protects your personal information.`,
-    url: `${SITE_URL}/privacy-policy`,
-  },
-};
+    alternates: {
+      canonical: `${SITE_URL}/privacy-policy`,
+    },
+    openGraph: {
+      title: `Privacy Policy | ${site.name}`,
+      description: `How ${site.name} collects, uses and protects your personal information.`,
+      url: `${SITE_URL}/privacy-policy`,
+    },
+  };
+}
 
 /** Small helper for consistent section headings. */
 function Heading({ children }: { children: string }) {
@@ -24,7 +29,9 @@ function Heading({ children }: { children: string }) {
   );
 }
 
-export default function PrivacyPolicyPage() {
+export default async function PrivacyPolicyPage() {
+  const site = await getSiteSettings();
+
   const sections = [
     {
       title: "Information We Collect",

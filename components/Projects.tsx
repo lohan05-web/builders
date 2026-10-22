@@ -8,7 +8,7 @@ import { ArrowLeft, ArrowRight, Expand, MapPin, X } from "lucide-react";
 import { track } from "@vercel/analytics";
 import {
   formatArea,
-  projects,
+  projects as fallbackProjects,
   type Project,
   type ProjectCategory,
 } from "@/data/projects";
@@ -25,7 +25,20 @@ const filters: { label: string; value: ProjectCategory | "All" }[] = [
 /** Shared easing curve for every animation on this page. */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Projects() {
+interface ProjectsProps {
+  /**
+   * The projects shown in the grid.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  projects: Project[];
+}
+
+export default function Projects({ projects }: ProjectsProps) {
+  // Never render an empty grid — fall back to the local projects.
+  const items = projects.length > 0 ? projects : fallbackProjects;
+
   /** Currently selected filter tab. */
   const [activeFilter, setActiveFilter] = useState<ProjectCategory | "All">(
     "All",
@@ -37,9 +50,9 @@ export default function Projects() {
   const filteredProjects = useMemo(
     () =>
       activeFilter === "All"
-        ? projects
-        : projects.filter((project) => project.category === activeFilter),
-    [activeFilter],
+        ? items
+        : items.filter((project) => project.category === activeFilter),
+    [activeFilter, items],
   );
 
   /** Switching tabs closes any open lightbox so the index stays valid. */
@@ -177,7 +190,7 @@ export default function Projects() {
                     {/* Project photo */}
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={project.imageAlt || project.title}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-105"
@@ -268,7 +281,7 @@ export default function Projects() {
                   >
                     <Image
                       src={activeProject.image}
-                      alt={activeProject.title}
+                      alt={activeProject.imageAlt || activeProject.title}
                       fill
                       sizes="(max-width: 1024px) 100vw, 1024px"
                       className="object-cover"

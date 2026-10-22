@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { ArrowUp, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { track } from "@vercel/analytics";
-import { navLinks, site } from "@/data/site";
-import { services } from "@/data/services";
+import { navLinks } from "@/data/site";
+import type { Service } from "@/data/services";
+import { useSite } from "@/components/SiteSettingsProvider";
+import { useIsStudio } from "@/components/useIsStudio";
 import { socialIcons, socialLabels, type SocialNetwork } from "./SocialIcons";
 
 /** The networks shown in the footer, in display order. */
@@ -15,11 +17,24 @@ const SOCIAL_NETWORKS: SocialNetwork[] = [
   "youtube",
 ];
 
-export default function Footer() {
+interface FooterProps {
+  /** The services catalogue, resolved on the server. */
+  services: Service[];
+}
+
+export default function Footer({ services }: FooterProps) {
+  /** The company details, resolved on the server and shared via context. */
+  const site = useSite();
+  /** True while the embedded Studio is open. */
+  const isStudio = useIsStudio();
+
   /** Scroll smoothly back to the very top of the page. */
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  // The Studio gets the full browser window — no site chrome.
+  if (isStudio) return null;
 
   return (
     <footer className="relative border-t border-gold bg-charcoal-900">

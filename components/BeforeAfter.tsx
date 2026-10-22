@@ -4,14 +4,31 @@ import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { MoveHorizontal } from "lucide-react";
-import { beforeAfter } from "@/data/projects";
+import { beforeAfter as fallbackBeforeAfter } from "@/data/projects";
+import type { BeforeAfterContent } from "@/sanity/lib/types";
 
 /** Keyboard nudge amount (px of percentage points) per arrow press. */
 const KEYBOARD_STEP = 3;
 /** Larger nudge when Shift is held. */
 const KEYBOARD_STEP_LARGE = 10;
 
-export default function BeforeAfter() {
+interface BeforeAfterProps {
+  /**
+   * The before/after pair shown in the slider.
+   *
+   * Resolved on the server (from Sanity, falling back to the local data)
+   * and handed down as a prop.
+   */
+  beforeAfter: BeforeAfterContent;
+}
+
+export default function BeforeAfter({ beforeAfter }: BeforeAfterProps) {
+  // Never render an empty slider — fall back to the local comparison.
+  const comparison =
+    beforeAfter && beforeAfter.before && beforeAfter.after
+      ? beforeAfter
+      : { ...fallbackBeforeAfter, beforeAlt: "", afterAlt: "" };
+
   /** Slider position as a percentage (0 = all "after", 100 = all "before"). */
   const [position, setPosition] = useState(50);
   /** Ref used to work out the pointer position relative to the track. */
@@ -138,8 +155,11 @@ export default function BeforeAfter() {
           >
             {/* After image — the bottom layer, always fully visible */}
             <Image
-              src={beforeAfter.after}
-              alt={`${beforeAfter.title} — after renovation`}
+              src={comparison.after}
+              alt={
+                comparison.afterAlt ||
+                `${comparison.title} — after renovation`
+              }
               fill
               sizes="(max-width: 1152px) 100vw, 1152px"
               className="object-cover"
@@ -152,8 +172,11 @@ export default function BeforeAfter() {
               style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
             >
               <Image
-                src={beforeAfter.before}
-                alt={`${beforeAfter.title} — before renovation`}
+                src={comparison.before}
+                alt={
+                  comparison.beforeAlt ||
+                  `${comparison.title} — before renovation`
+                }
                 fill
                 sizes="(max-width: 1152px) 100vw, 1152px"
                 className="object-cover"
@@ -189,9 +212,9 @@ export default function BeforeAfter() {
           {/* Caption */}
           <div className="mt-7 text-center">
             <h3 className="font-display text-2xl font-semibold text-white">
-              {beforeAfter.title}
+              {comparison.title}
             </h3>
-            <p className="mt-2 text-sm text-white/55">{beforeAfter.location}</p>
+            <p className="mt-2 text-sm text-white/55">{comparison.location}</p>
           </div>
         </motion.div>
       </div>
