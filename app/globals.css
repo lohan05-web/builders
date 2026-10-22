@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --charcoal: #111111;
+  --gold: #c9a24b;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Offset anchor targets so they don't hide under the fixed navbar. */
+  scroll-padding-top: 5rem;
+}
+
+/**
+ * Section offsets keep sticky headers and the fixed navbar from covering
+ * section headings when navigating via anchor links.
+ */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+body {
+  background-color: var(--charcoal);
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--gold);
+  color: #111111;
+}
+
+/* Slim, on-brand scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
