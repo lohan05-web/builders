@@ -42,17 +42,17 @@ export default function Hero() {
       {/* --- Dark overlay for readability ------------------------------- */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-charcoal/80"
+        className="absolute inset-0 bg-navy/90"
       />
       {/* Extra left-weighted gradient so the headline always pops */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/70 to-charcoal/30"
+        className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-navy/40"
       />
       {/* Subtle vignette to frame the composition */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-charcoal/60"
+        className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-navy/60"
       />
 
       {/* --- Content ----------------------------------------------------- */}
@@ -69,8 +69,8 @@ export default function Hero() {
             variants={fadeUp}
             className="mb-7 flex items-center gap-4"
           >
-            <span aria-hidden="true" className="h-px w-12 bg-gold" />
-            <span className="text-xs font-medium uppercase tracking-widest text-gold">
+            <span aria-hidden="true" className="h-px w-12 bg-orange" />
+            <span className="text-xs font-medium uppercase tracking-widest text-orange">
               Residential &amp; Commercial Construction
             </span>
           </motion.div>
@@ -81,7 +81,7 @@ export default function Hero() {
             className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl"
           >
             Building Your Dream,{" "}
-            <span className="text-gold">Brick by Brick</span>
+            <span className="text-orange">Brick by Brick</span>
           </motion.h1>
 
           {/* Subtext */}
@@ -101,9 +101,9 @@ export default function Hero() {
             <Link
               href="/#contact"
               onClick={() => track("get_quote_click", { location: "hero" })}
-              className="group inline-flex items-center justify-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-semibold tracking-wide text-charcoal transition-all duration-300 ease-smooth hover:bg-gold-light hover:shadow-xl hover:shadow-gold/25"
+              className="group inline-flex items-center justify-center gap-2 rounded-sm bg-orange px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all duration-300 ease-smooth hover:bg-orange-hover hover:shadow-xl hover:shadow-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              Get a Quote
+              Get a Free Quote
               <ArrowRight
                 className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                 aria-hidden="true"
@@ -112,7 +112,7 @@ export default function Hero() {
 
             <Link
               href="/#projects"
-              className="inline-flex items-center justify-center rounded-sm border border-white/30 px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all duration-300 ease-smooth hover:border-gold hover:bg-gold/10 hover:text-gold"
+              className="inline-flex items-center justify-center rounded-sm border border-white/40 px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all duration-300 ease-smooth hover:border-orange hover:bg-orange/10 hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
             >
               View Projects
             </Link>
@@ -132,7 +132,7 @@ export default function Hero() {
           aria-label="Scroll to next section"
           className="group flex flex-col items-center gap-2"
         >
-          <span className="text-[10px] uppercase tracking-widest text-white/40 transition-colors duration-300 group-hover:text-gold">
+          <span className="text-[10px] uppercase tracking-widest text-white/40 transition-colors duration-300 group-hover:text-orange">
             Scroll
           </span>
           <motion.span
@@ -142,7 +142,7 @@ export default function Hero() {
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-gold transition-colors duration-300 group-hover:border-gold"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-orange transition-colors duration-300 group-hover:border-orange"
           >
             <ArrowDown className="h-4 w-4" aria-hidden="true" />
           </motion.span>

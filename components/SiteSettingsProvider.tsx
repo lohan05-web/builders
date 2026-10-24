@@ -1,7 +1,9 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import type { SiteSettings } from "@/sanity/lib/types";
+import { site as localSite } from "@/data/site";
+
+type SiteSettings = typeof localSite;
 
 /**
  * The context that carries the company details to the client components.
@@ -11,20 +13,15 @@ import type { SiteSettings } from "@/sanity/lib/types";
  * navbar, footer, contact panel and floating buttons then all share the
  * same values without each one fetching on its own.
  */
-const SiteSettingsContext = createContext<SiteSettings | null>(null);
+const SiteSettingsContext = createContext<SiteSettings>(localSite);
 
 interface SiteSettingsProviderProps {
-  /** The company details, resolved on the server. */
-  settings: SiteSettings;
-  /** The page content. */
+  settings?: SiteSettings;
   children: ReactNode;
 }
 
-/**
- * Provide the company details to every client component below it.
- */
 export function SiteSettingsProvider({
-  settings,
+  settings = localSite,
   children,
 }: SiteSettingsProviderProps) {
   return (

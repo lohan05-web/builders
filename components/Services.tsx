@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
 import {
   Armchair,
   Building2,
@@ -12,10 +11,6 @@ import {
 } from "lucide-react";
 import { services as fallbackServices, type Service, type ServiceIconName } from "@/data/services";
 
-/**
- * Maps each service's icon name to its lucide-react component.
- * Keeping the map here means `data/services.ts` stays free of JSX.
- */
 const serviceIcons: Record<ServiceIconName, LucideIcon> = {
   Home,
   Building2,
@@ -25,126 +20,60 @@ const serviceIcons: Record<ServiceIconName, LucideIcon> = {
   ClipboardCheck,
 };
 
-/** Parent container — staggers the cards as they come into view. */
-const gridVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-  },
-};
-
-/** Individual card fade-up. */
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-/** Section heading fade-up. */
-const headingVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
 interface ServicesProps {
-  /**
-   * The services catalogue.
-   *
-   * Resolved on the server (from Sanity, falling back to the local data)
-   * and handed down as a prop.
-   */
-  services: Service[];
+  services?: Service[];
 }
 
 export default function Services({ services }: ServicesProps) {
-  // Never render an empty grid — fall back to the local catalogue.
-  const items = services.length > 0 ? services : fallbackServices;
+  const items = services && services.length > 0 ? services : fallbackServices;
 
   return (
-    <section
-      id="services"
-      className="relative w-full scroll-mt-24 bg-charcoal py-24 sm:py-28 lg:py-32"
-    >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* --- Section heading ------------------------------------------- */}
-        <motion.div
-          variants={headingVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-          className="mx-auto max-w-2xl text-center"
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+    <section id="services" className="relative w-full bg-navy py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-orange">
+            Services
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             What We Do
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Our Services
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/55">
-            From the first blueprint to the final handover, we cover every
-            stage of the build with the same uncompromising standard.
-          </p>
-        </motion.div>
+        </div>
 
-        {/* --- Services grid --------------------------------------------- */}
-        <motion.ul
-          variants={gridVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {items.map((service) => {
-            const Icon = serviceIcons[service.icon];
-
+        <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {items.map((service, index) => {
+            const Icon = serviceIcons[service.icon] || Home;
             return (
-              <motion.li key={service.id} variants={cardVariants} className="h-full">
-                {/*
-                  The hover transform lives on this inner element so it does
-                  not fight with the motion `y` transform on the <li>.
-                */}
-                <div
-                  className={[
-                    "group flex h-full flex-col rounded-sm border border-white/10",
-                    "bg-charcoal-800/40 p-8",
-                    "transition-all duration-500 ease-smooth",
-                    "hover:-translate-y-2 hover:border-gold/50",
-                    "hover:shadow-[0_25px_60px_-20px_rgba(201,162,75,0.45)]",
-                  ].join(" ")}
-                >
-                  {/* Icon */}
+              <li key={service.id} className="h-full">
+                <article className="group relative flex h-full min-h-[16rem] flex-col overflow-hidden border border-white/10 bg-navy-light p-6 transition-all duration-300 ease-smooth hover:-translate-y-1 hover:border-orange/70 hover:shadow-xl hover:shadow-black/20 sm:p-7">
                   <span
-                    className={[
-                      "flex h-14 w-14 items-center justify-center rounded-sm",
-                      "border border-gold/30 bg-gold/10 text-gold",
-                      "transition-all duration-500 ease-smooth",
-                      "group-hover:border-gold group-hover:bg-gold group-hover:text-charcoal",
-                    ].join(" ")}
-                  >
-                    <Icon className="h-6 w-6" aria-hidden="true" />
-                  </span>
+                    aria-hidden="true"
+                    className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-orange transition-transform duration-300 ease-smooth group-hover:scale-x-100"
+                  />
 
-                  {/* Title */}
-                  <h3 className="mt-6 font-display text-xl font-semibold text-white transition-colors duration-500 group-hover:text-gold">
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-orange/60 text-orange transition-colors duration-300 group-hover:bg-orange group-hover:text-white">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="font-display text-lg font-bold tabular-nums text-white/35 transition-colors duration-300 group-hover:text-orange"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-6 min-h-[3.25rem] font-display text-xl font-bold leading-tight text-white">
                     {service.title}
                   </h3>
 
-                  {/* Description */}
-                  <p className="mt-3 text-sm leading-relaxed text-white/55">
+                  <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-[#D5DBE5] sm:text-base">
                     {service.description}
                   </p>
-                </div>
-              </motion.li>
+                </article>
+              </li>
             );
           })}
-        </motion.ul>
+        </ul>
       </div>
     </section>
   );

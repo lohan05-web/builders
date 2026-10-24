@@ -3,34 +3,41 @@
 @tailwind utilities;
 
 :root {
-  --charcoal: #111111;
-  --gold: #c9a24b;
+  --navy: #0B1F3A;
+  --navy-light: #14305A;
+  --orange: #F26B21;
+  --orange-hover: #D95A14;
+  --white: #FFFFFF;
+  --warm-white: #F8F6F2;
+  --text-dark: #1A1A1A;
 }
 
 html {
   scroll-behavior: smooth;
-  /* Offset anchor targets so they don't hide under the fixed navbar. */
   scroll-padding-top: 5rem;
 }
 
-/**
- * Section offsets keep sticky headers and the fixed navbar from covering
- * section headings when navigating via anchor links.
- */
 section[id] {
   scroll-margin-top: 5rem;
 }
 
+html,
 body {
-  background-color: var(--charcoal);
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--navy);
   color: #ffffff;
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: var(--gold);
-  color: #111111;
+  background-color: var(--orange);
+  color: #ffffff;
 }
 
 /* Slim, on-brand scrollbar */
@@ -38,18 +45,27 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #111111;
+  background: var(--navy);
 }
 ::-webkit-scrollbar-thumb {
-  background: #3a3a3a;
+  background: rgba(242, 107, 33, 0.6);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
+  background: var(--orange);
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

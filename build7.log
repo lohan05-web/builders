@@ -1,0 +1,29 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+node.exe : Failed to compile.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./components/FloatingButtons.tsx:52:26
+Type error: Property 'whatsappLink' does not exist on type '{ readonly name: "LM Builders"; readonly tagline: 
+"Building Your Dream, Brick by Brick"; readonly description: "LM Builders delivers high-quality residential and 
+commercial construction, built on trusted craftsmanship, transparent pricing and on-time delivery."; ... 8 more ...; 
+readonly whatsappMessage: "Hi, I am in...'. Did you mean 'whatsapp'?
+
+[0m [90m 50 |[39m             {[90m/* --- WhatsApp ------------------------------------------- */[39m}[0m
+[0m [90m 51 |[39m             [33m<[39m[33ma[39m[0m
+[0m[31m[1m>[22m[39m[90m 52 |[39m               href[33m=[39m{site[33m.[39mwhatsappLink}[0m
+[0m [90m    |[39m                          [31m[1m^[22m[39m[0m
+[0m [90m 53 |[39m               target[33m=[39m[32m"_blank"[39m[0m
+[0m [90m 54 |[39m               rel[33m=[39m[32m"noopener noreferrer"[39m[0m
+[0m [90m 55 |[39m               onClick[33m=[39m{() [33m=>[39m track([32m"whatsapp_click"[39m[33m,[39m { 
+location[33m:[39m [32m"floating_button"[39m })}[0m
+Next.js build worker exited with code: 1 and signal: null

@@ -16,18 +16,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        charcoal: {
-          DEFAULT: "#111111",
-          900: "#0A0A0A",
-          800: "#171717",
-          700: "#1F1F1F",
-          600: "#292929",
-          500: "#3A3A3A",
+        navy: {
+          DEFAULT: "#0B1F3A",
+          light: "#14305A",
         },
-        gold: {
-          DEFAULT: "#C9A24B",
-          light: "#DCBC72",
-          dark: "#A8853A",
+        orange: {
+          DEFAULT: "#F26B21",
+          hover: "#D95A14",
+        },
+        warm: {
+          white: "#F8F6F2",
+        },
+        text: {
+          dark: "#1A1A1A",
         },
       },
       fontFamily: {

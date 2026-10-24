@@ -33,24 +33,24 @@ export default function FAQ({ faqs }: FAQProps) {
   return (
     <section
       id="faq"
-      className="relative w-full scroll-mt-24 bg-charcoal py-24 sm:py-28 lg:py-32"
+      className="relative w-full scroll-mt-20 bg-navy py-16 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto max-w-3xl px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* --- Section heading ------------------------------------------- */}
         <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-orange">
             FAQ
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Frequently Asked Questions
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/50 sm:text-base">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">
             Straight answers to the questions we hear most often.
           </p>
         </div>
 
         {/* --- Accordion -------------------------------------------------- */}
-        <div className="mt-14 divide-y divide-white/5 rounded-sm border border-white/10">
+        <div className="mt-10 divide-y divide-white/10 rounded-sm border border-white/10 sm:mt-14">
           {items.map((item) => {
             const isOpen = openId === item.id;
             const buttonId = `faq-button-${item.id}`;
@@ -65,16 +65,16 @@ export default function FAQ({ faqs }: FAQProps) {
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => toggle(item.id)}
-                    className="flex w-full items-center justify-between gap-6 px-5 py-6 text-left transition-colors duration-300 hover:bg-white/[0.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-inset sm:px-7"
+                    className="flex w-full items-center justify-between gap-5 px-4 py-5 text-left transition-colors duration-200 hover:bg-white/[0.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange/80 focus-visible:ring-offset-2 focus-visible:ring-offset-navy sm:px-6 sm:py-6"
                   >
-                    <span className="font-display text-lg font-medium text-white sm:text-xl">
+                    <span className="font-display text-lg font-medium leading-snug text-white sm:text-xl">
                       {item.question}
                     </span>
                     <motion.span
                       aria-hidden="true"
                       animate={{ rotate: isOpen ? 180 : 0 }}
-                      transition={{ duration: 0.3, ease: EASE }}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-gold/40 text-gold"
+                      transition={{ duration: 0.25, ease: EASE }}
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-orange/60 text-orange"
                     >
                       <ChevronDown className="h-4 w-4" />
                     </motion.span>
@@ -91,10 +91,10 @@ export default function FAQ({ faqs }: FAQProps) {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: EASE }}
+                      transition={{ duration: 0.28, ease: EASE }}
                       className="overflow-hidden"
                     >
-                      <p className="px-5 pb-6 text-sm leading-relaxed text-white/55 sm:px-7 sm:text-base">
+                      <p className="px-4 pb-5 text-sm leading-relaxed text-white/75 sm:px-6 sm:pb-6 sm:text-base">
                         {item.answer}
                       </p>
                     </motion.div>

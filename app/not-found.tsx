@@ -21,9 +21,9 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="flex min-h-[80vh] items-center justify-center bg-charcoal px-5">
+    <section className="flex min-h-[80vh] items-center justify-center bg-navy px-5">
       <div className="mx-auto max-w-xl text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+        <p className="text-xs font-semibold uppercase tracking-widest text-orange">
           404 — Page Not Found
         </p>
         <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
@@ -36,13 +36,13 @@ export default function NotFound() {
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-sm bg-gold px-8 py-4 text-sm font-semibold tracking-wide text-charcoal transition-all duration-300 ease-smooth hover:bg-gold-light hover:shadow-lg hover:shadow-gold/20"
+            className="inline-flex items-center justify-center rounded-sm bg-orange px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all duration-300 ease-smooth hover:bg-orange-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             Back to Home
           </a>
           <a
             href="/#contact"
-            className="inline-flex items-center justify-center rounded-sm border border-white/15 px-8 py-4 text-sm font-semibold tracking-wide text-white/80 transition-colors duration-300 hover:border-gold hover:text-gold"
+            className="inline-flex items-center justify-center rounded-sm border border-white/30 px-8 py-4 text-sm font-semibold tracking-wide text-white/90 transition-colors duration-300 hover:border-orange hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
           >
             Get a Free Quote
           </a>

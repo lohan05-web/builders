@@ -9,7 +9,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { stats as fallbackStats } from "@/data/site";
-import type { SiteStat } from "@/sanity/lib/types";
+
+type SiteStat = (typeof fallbackStats)[number];
 
 /** How long the count-up tween runs, in seconds. */
 const COUNT_DURATION = 1.8;

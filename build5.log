@@ -1,0 +1,26 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+node.exe : Failed to compile.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./app/layout.tsx:121:12
+Type error: Property 'services' is missing in type '{}' but required in type 'FooterProps'.
+
+[0m [90m 119 |[39m           [33m<[39m[33mNavbar[39m [33m/[39m[33m>[39m[0m
+[0m [90m 120 |[39m           
+[33m<[39m[33mmain[39m[33m>[39m{children}[33m<[39m[33m/[39m[33mmain[39m[33m>[39m[0m
+[0m[31m[1m>[22m[39m[90m 121 |[39m           [33m<[39m[33mFooter[39m [33m/[39m[33m>[39m[0m
+[0m [90m     |[39m            [31m[1m^[22m[39m[0m
+[0m [90m 122 |[39m           [33m<[39m[33mFloatingButtons[39m [33m/[39m[33m>[39m[0m
+[0m [90m 123 |[39m         [33m<[39m[33m/[39m[33mSiteSettingsProvider[39m[33m>[39m[0m
+[0m [90m 124 |[39m         [33m<[39m[33mAnalytics[39m [33m/[39m[33m>[39m[0m
+Next.js build worker exited with code: 1 and signal: null

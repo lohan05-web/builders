@@ -235,9 +235,9 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
   return (
     <section
       id="testimonials"
-      className="relative w-full scroll-mt-24 bg-charcoal-800/30 py-24 sm:py-28 lg:py-32"
+      className="relative w-full scroll-mt-20 bg-navy py-16 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* --- Section heading ------------------------------------------- */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -246,13 +246,13 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-orange">
             Testimonials
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             What Our Clients Say
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/55">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">
             Real feedback from the families and businesses we have built for
             over the last decade.
           </p>
@@ -264,8 +264,10 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-14"
+          className="mt-10 sm:mt-14"
         >
+          {items.length === 0 ? null : (
+            <>
           <div
             ref={viewportRef}
             onPointerEnter={() => setIsHovered(true)}
@@ -291,15 +293,15 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                 return (
                   <article
                     key={slot}
-                    className="flex h-full shrink-0 flex-col rounded-sm border border-white/10 bg-charcoal/60 p-7"
+                    className="flex h-full shrink-0 flex-col rounded-sm border border-white/10 bg-navy-light/70 p-5 sm:p-7"
                     style={{ width: cardWidth || undefined }}
                   >
                     {/* Quote mark */}
-                    <Quote className="h-7 w-7 text-gold/40" aria-hidden="true" />
+                    <Quote className="h-7 w-7 text-orange/60" aria-hidden="true" />
 
                     {/* Star rating */}
                     <div
-                      className="mt-5 flex items-center gap-1"
+                      className="mt-4 flex items-center gap-1"
                       aria-label={`${item.rating} out of 5 stars`}
                     >
                       {Array.from({ length: 5 }, (_, star) => (
@@ -307,8 +309,8 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                           key={star}
                           className={
                             star < item.rating
-                              ? "h-4 w-4 fill-gold text-gold"
-                              : "h-4 w-4 text-white/20"
+                              ? "h-4 w-4 fill-orange text-orange"
+                              : "h-4 w-4 text-white/25"
                           }
                           aria-hidden="true"
                         />
@@ -316,18 +318,19 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     </div>
 
                     {/* Quote */}
-                    <p className="mt-5 flex-1 text-sm leading-relaxed text-white/65">
+                    <p className="mt-4 flex-1 text-sm leading-relaxed text-white/80">
                       {item.quote}
                     </p>
 
                     {/* Client */}
-                    <div className="mt-7 flex items-center gap-4 border-t border-white/10 pt-6">
-                      <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-gold">
+                    <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5 sm:mt-7 sm:gap-4 sm:pt-6">
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-orange sm:h-14 sm:w-14">
                         <Image
                           src={item.photo}
-                          alt={item.photoAlt || item.name}
+                          alt={item.photoAlt || `${item.name}, client of LM Builders`}
                           fill
                           sizes="56px"
+                          loading="lazy"
                           className="object-cover"
                         />
                       </div>
@@ -335,10 +338,10 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                         <p className="font-display text-base font-semibold leading-snug text-white">
                           {item.name}
                         </p>
-                        <p className="mt-1 text-xs font-medium leading-snug text-white/70">
+                        <p className="mt-1 text-xs font-medium leading-snug text-white/80">
                           {item.projectName}
                         </p>
-                        <p className="mt-0.5 text-xs leading-snug text-white/40">
+                        <p className="mt-0.5 text-xs leading-snug text-white/60">
                           {item.location}
                         </p>
                       </div>
@@ -350,19 +353,19 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
           </div>
 
           {/* --- Controls ------------------------------------------------- */}
-          <div className="mt-10 flex items-center justify-center gap-6">
+          <div className="mt-8 flex items-center justify-center gap-5 sm:mt-10">
             {/* Prev */}
             <button
               type="button"
               onClick={prev}
               aria-label="Previous testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 ease-smooth hover:border-gold hover:bg-gold/10 hover:text-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white/80 transition-all duration-200 ease-smooth hover:border-orange hover:bg-orange/10 hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
             >
               <ChevronLeft className="h-5 w-5" aria-hidden="true" />
             </button>
 
             {/* Dots */}
-            <div className="flex items-center gap-2.5" role="tablist" aria-label="Choose testimonial">
+            <div className="flex items-center gap-2" role="tablist" aria-label="Choose testimonial">
               {items.map((item, index) => (
                 <button
                   key={item.id}
@@ -375,10 +378,10 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     setTick((value) => value + 1);
                   }}
                   className={[
-                    "h-2 rounded-full transition-all duration-300 ease-smooth",
+                    "h-2 rounded-full transition-all duration-200 ease-smooth focus:outline-none focus-visible:ring-2 focus-visible:ring-orange",
                     activeDot === index
-                      ? "w-7 bg-gold"
-                      : "w-2 bg-white/25 hover:bg-white/50",
+                      ? "w-7 bg-orange"
+                      : "w-2 bg-white/30 hover:bg-white/60",
                   ].join(" ")}
                 />
               ))}
@@ -389,11 +392,13 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
               type="button"
               onClick={next}
               aria-label="Next testimonial"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 ease-smooth hover:border-gold hover:bg-gold/10 hover:text-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white/80 transition-all duration-200 ease-smooth hover:border-orange hover:bg-orange/10 hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
             >
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
+            </>
+          )}
         </motion.div>
       </div>
     </section>

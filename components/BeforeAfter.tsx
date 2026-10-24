@@ -5,7 +5,15 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { MoveHorizontal } from "lucide-react";
 import { beforeAfter as fallbackBeforeAfter } from "@/data/projects";
-import type { BeforeAfterContent } from "@/sanity/lib/types";
+
+interface BeforeAfterContent {
+  before: string;
+  after: string;
+  title?: string;
+  location?: string;
+  beforeAlt?: string;
+  afterAlt?: string;
+}
 
 /** Keyboard nudge amount (px of percentage points) per arrow press. */
 const KEYBOARD_STEP = 3;
@@ -13,16 +21,10 @@ const KEYBOARD_STEP = 3;
 const KEYBOARD_STEP_LARGE = 10;
 
 interface BeforeAfterProps {
-  /**
-   * The before/after pair shown in the slider.
-   *
-   * Resolved on the server (from Sanity, falling back to the local data)
-   * and handed down as a prop.
-   */
-  beforeAfter: BeforeAfterContent;
+  beforeAfter?: BeforeAfterContent;
 }
 
-export default function BeforeAfter({ beforeAfter }: BeforeAfterProps) {
+export default function BeforeAfter({ beforeAfter }: BeforeAfterProps = {}) {
   // Never render an empty slider — fall back to the local comparison.
   const comparison =
     beforeAfter && beforeAfter.before && beforeAfter.after
@@ -99,9 +101,9 @@ export default function BeforeAfter({ beforeAfter }: BeforeAfterProps) {
   return (
     <section
       id="before-after"
-      className="relative w-full scroll-mt-24 bg-charcoal-800/30 py-24 sm:py-28 lg:py-32"
+      className="relative w-full scroll-mt-20 border-y border-white/10 bg-navy-light/40 py-16 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-8 lg:px-10">
         {/* --- Section heading ------------------------------------------- */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -110,13 +112,13 @@ export default function BeforeAfter({ beforeAfter }: BeforeAfterProps) {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-orange">
             Before &amp; After
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Renovation Transformations
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/55">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/65 sm:text-base">
             Drag the handle to reveal what a complete renovation can do — the
             same property, before and after.
           </p>
@@ -128,7 +130,7 @@ export default function BeforeAfter({ beforeAfter }: BeforeAfterProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-14"
+          className="mt-10 sm:mt-14"
         >
           <div
             ref={containerRef}
@@ -146,11 +148,11 @@ export default function BeforeAfter({ beforeAfter }: BeforeAfterProps) {
             aria-valuetext={`${roundedPosition}% of the before image is showing`}
             tabIndex={0}
             className={[
-              "relative aspect-[16/10] w-full overflow-hidden rounded-sm",
-              "border border-white/10 bg-charcoal-900",
+              "relative aspect-[4/3] w-full max-w-[390px] mx-auto overflow-hidden sm:aspect-[16/10] sm:max-w-none",
+              "border border-white/10 bg-navy",
               // `touch-none` stops the page scrolling while dragging.
               "cursor-ew-resize touch-none select-none",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/70",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-orange/80",
             ].join(" ")}
           >
             {/* After image — the bottom layer, always fully visible */}
@@ -185,36 +187,36 @@ export default function BeforeAfter({ beforeAfter }: BeforeAfterProps) {
             </div>
 
             {/* Corner labels */}
-            <span className="pointer-events-none absolute left-4 top-4 rounded-sm bg-charcoal/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur sm:left-6 sm:top-6">
+            <span className="pointer-events-none absolute left-3 top-3 rounded-sm bg-navy/85 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-widest text-white backdrop-blur sm:left-5 sm:top-5 sm:px-3 sm:text-[10px]">
               Before
             </span>
-            <span className="pointer-events-none absolute right-4 top-4 rounded-sm bg-gold px-3 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-charcoal sm:right-6 sm:top-6">
+            <span className="pointer-events-none absolute right-3 top-3 rounded-sm bg-orange px-2.5 py-1 text-[9px] font-semibold uppercase tracking-widest text-white backdrop-blur sm:right-5 sm:top-5 sm:px-3 sm:text-[10px]">
               After
             </span>
 
-            {/* Gold divider line */}
+            {/* Divider line */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-gold shadow-[0_0_20px_rgba(201,162,75,0.55)]"
+              className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-orange shadow-[0_0_16px_rgba(242,107,33,0.45)]"
               style={{ left: `${position}%` }}
             />
 
             {/* Draggable handle */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute top-1/2 z-10 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-gold bg-charcoal/85 text-gold shadow-lg backdrop-blur sm:h-14 sm:w-14"
+              className="pointer-events-none absolute top-1/2 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-orange bg-navy/90 text-orange shadow-lg backdrop-blur sm:h-13 sm:w-13"
               style={{ left: `${position}%` }}
             >
-              <MoveHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />
+              <MoveHorizontal className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
           </div>
 
           {/* Caption */}
-          <div className="mt-7 text-center">
-            <h3 className="font-display text-2xl font-semibold text-white">
+          <div className="mt-6 text-center sm:mt-7">
+            <h3 className="font-display text-xl font-semibold text-white sm:text-2xl">
               {comparison.title}
             </h3>
-            <p className="mt-2 text-sm text-white/55">{comparison.location}</p>
+            <p className="mt-2 text-sm text-white/65">{comparison.location}</p>
           </div>
         </motion.div>
       </div>

@@ -1,44 +1,35 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Barlow_Condensed, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import JsonLd from "@/components/JsonLd";
 import { SiteSettingsProvider } from "@/components/SiteSettingsProvider";
-import { SITE_URL } from "@/data/site";
-import { getServices, getSiteSettings } from "@/sanity/lib/fetch";
+import { SITE_URL, site as localSite } from "@/data/site";
 import { Analytics } from "@vercel/analytics/next";
 
 /**
  * Fonts are self-hosted by next/font (no external requests at runtime).
  * The CSS variables are mapped to Tailwind's `font-sans` / `font-display`.
  */
-const inter = Inter({
+const barlowCondensed = Barlow_Condensed({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const playfairDisplay = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-/**
- * The site is re-rendered in the background every 60 seconds, so a change
- * made in the Sanity Studio appears on the live site within a minute.
- */
 export const revalidate = 60;
 
-/**
- * Page metadata, built from the company details stored in Sanity.
- *
- * Falls back to the local `data/site.ts` copy when the CMS is not set up.
- */
 export async function generateMetadata(): Promise<Metadata> {
-  const site = await getSiteSettings();
+  const site = localSite;
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -118,21 +109,22 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // The company details and the services list are resolved once here and
-  // handed to the client components as props.
-  const [site, services] = await Promise.all([getSiteSettings(), getServices()]);
+  const site = localSite;
 
   return (
-    <html lang="en" className={`${inter.variable} ${playfairDisplay.variable}`}>
-      <body className="min-h-screen bg-charcoal font-sans text-white antialiased">
+    <html lang="en" className={`${dmSans.variable} ${barlowCondensed.variable}`}>
+      <body className="min-h-screen bg-navy font-sans text-white antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-sm focus:bg-orange focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        >
+          Skip to main content
+        </a>
         <SiteSettingsProvider settings={site}>
           <JsonLd settings={site} />
-          {/* Navbar is global so it stays mounted across every route. */}
           <Navbar />
-          <main>{children}</main>
-          {/* The footer is global so inner pages share the same quick links. */}
-          <Footer services={services} />
-          {/* Floating WhatsApp / call buttons sit above every page. */}
+          <main id="main-content">{children}</main>
+          <Footer />
           <FloatingButtons />
         </SiteSettingsProvider>
         <Analytics />

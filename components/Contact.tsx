@@ -52,7 +52,7 @@ type FormStatus = "idle" | "submitting" | "success" | "error";
 
 /** Shared styling for every text input, select and textarea. */
 const FIELD_CLASSES =
-  "w-full rounded-sm border bg-charcoal-900/60 px-4 py-3 text-sm text-white placeholder:text-white/25 outline-none transition-colors duration-300 focus:border-gold focus:ring-2 focus:ring-gold/40";
+  "w-full min-h-[44px] rounded-sm border bg-navy px-4 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-colors duration-200 focus:border-orange focus:ring-2 focus:ring-orange/40";
 
 /** Props for the small `Field` wrapper. */
 interface FieldProps {
@@ -88,16 +88,16 @@ function Field({
     <div className={className}>
       <label
         htmlFor={id}
-        className="flex items-baseline gap-2 text-xs font-semibold uppercase tracking-widest text-white/60"
+        className="flex items-baseline gap-2 text-xs font-semibold uppercase tracking-widest text-white/70"
       >
         {label}
         {required ? (
-          <span className="text-gold" aria-hidden="true">
+          <span className="text-orange" aria-hidden="true">
             *
           </span>
         ) : null}
         {optional ? (
-          <span className="text-[10px] font-normal normal-case tracking-normal text-white/25">
+          <span className="text-[10px] font-normal normal-case tracking-normal text-white/40">
             optional
           </span>
         ) : null}
@@ -109,10 +109,12 @@ function Field({
         {error ? (
           <motion.p
             key={error}
+            id={`${id}-error`}
             initial={{ opacity: 0, y: -4, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -4, height: 0 }}
             transition={{ duration: 0.25 }}
+            role="alert"
             className="flex items-start gap-1.5 overflow-hidden pt-2 text-xs text-red-400"
           >
             <AlertCircle
@@ -249,9 +251,9 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative w-full scroll-mt-24 bg-charcoal-800/30 py-24 sm:py-28 lg:py-32"
+      className="relative w-full scroll-mt-20 bg-navy py-16 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* --- Section heading ------------------------------------------- */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -260,27 +262,27 @@ export default function Contact() {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+          <p className="text-xs font-semibold uppercase tracking-widest text-orange">
             Contact Us
           </p>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Get Your Free Quote
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/55">
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">
             Tell us about your project and we will come back with a detailed,
             no-obligation estimate within one working day.
           </p>
         </motion.div>
 
         {/* --- Form + details --------------------------------------------- */}
-        <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="mt-10 grid gap-8 lg:mt-16 lg:grid-cols-2 lg:gap-12">
           {/* --------------------------- Quote form ------------------- */}
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="rounded-sm border border-white/10 bg-charcoal/60 p-6 sm:p-9"
+            className="rounded-sm border border-white/10 bg-navy-light/70 p-5 sm:p-8 lg:p-9"
           >
             <AnimatePresence mode="wait" initial={false}>
               {status === "success" ? (
@@ -293,13 +295,13 @@ export default function Contact() {
                   transition={{ duration: 0.4 }}
                   className="flex min-h-[420px] flex-col items-center justify-center py-8 text-center"
                 >
-                  <span className="flex h-16 w-16 items-center justify-center rounded-full border border-gold/50 bg-gold/10 text-gold">
+                  <span className="flex h-16 w-16 items-center justify-center rounded-full border border-orange/60 bg-orange/10 text-orange">
                     <CheckCircle2 className="h-8 w-8" aria-hidden="true" />
                   </span>
                   <h3 className="mt-6 font-display text-2xl font-bold text-white">
                     Enquiry received
                   </h3>
-                  <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/60">
+                  <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/70">
                     {serverMessage ||
                       "Thanks — your enquiry has been received."}{" "}
                     Our team will get back to you within one working day.
@@ -307,7 +309,7 @@ export default function Contact() {
                   <button
                     type="button"
                     onClick={resetForm}
-                    className="mt-8 rounded-sm border border-white/15 px-7 py-3 text-sm font-semibold tracking-wide text-white/80 transition-colors duration-300 hover:border-gold hover:text-gold"
+                    className="mt-8 min-h-[44px] rounded-sm border border-white/20 px-7 py-3 text-sm font-semibold tracking-wide text-white/90 transition-colors duration-200 hover:border-orange hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                   >
                     Send another enquiry
                   </button>
@@ -336,6 +338,7 @@ export default function Contact() {
                         onChange={handleChange("name")}
                         onBlur={handleBlur("name")}
                         aria-invalid={Boolean(errors.name)}
+                        aria-describedby={errors.name ? "name-error" : undefined}
                         className={`${FIELD_CLASSES} ${
                           errors.name
                             ? "border-red-500/70 focus:border-red-500 focus:ring-red-500/30"
@@ -358,6 +361,7 @@ export default function Contact() {
                         onChange={handleChange("phone")}
                         onBlur={handleBlur("phone")}
                         aria-invalid={Boolean(errors.phone)}
+                        aria-describedby={errors.phone ? "phone-error" : undefined}
                         className={`${FIELD_CLASSES} ${
                           errors.phone
                             ? "border-red-500/70 focus:border-red-500 focus:ring-red-500/30"
@@ -378,6 +382,7 @@ export default function Contact() {
                         onChange={handleChange("email")}
                         onBlur={handleBlur("email")}
                         aria-invalid={Boolean(errors.email)}
+                        aria-describedby={errors.email ? "email-error" : undefined}
                         className={`${FIELD_CLASSES} ${
                           errors.email
                             ? "border-red-500/70 focus:border-red-500 focus:ring-red-500/30"
@@ -395,6 +400,8 @@ export default function Contact() {
                           value={values.projectType}
                           onChange={handleChange("projectType")}
                           onBlur={handleBlur("projectType")}
+                          aria-invalid={Boolean(errors.projectType)}
+                          aria-describedby={errors.projectType ? "projectType-error" : undefined}
                           className={`${FIELD_CLASSES} appearance-none pr-11 ${
                             errors.projectType
                               ? "border-red-500/70 focus:border-red-500 focus:ring-red-500/30"
@@ -464,6 +471,7 @@ export default function Contact() {
                         onChange={handleChange("message")}
                         onBlur={handleBlur("message")}
                         aria-invalid={Boolean(errors.message)}
+                        aria-describedby={errors.message ? "message-error" : undefined}
                         className={`${FIELD_CLASSES} resize-y ${
                           errors.message
                             ? "border-red-500/70 focus:border-red-500 focus:ring-red-500/30"
@@ -499,7 +507,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-sm bg-gold px-8 py-4 text-sm font-semibold tracking-wide text-charcoal transition-all duration-300 ease-smooth hover:bg-gold-light hover:shadow-lg hover:shadow-gold/20 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:bg-gold disabled:hover:shadow-none sm:w-auto"
+                      className="inline-flex w-full min-h-[44px] items-center justify-center gap-2 rounded-sm bg-orange px-8 py-4 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:bg-orange-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:bg-orange sm:w-auto"
                     >
                       {isSubmitting ? (
                         <>
@@ -537,11 +545,11 @@ export default function Contact() {
                       ) : null}
                     </AnimatePresence>
 
-                    <p className="mt-4 text-xs text-white/30">
+                    <p className="mt-4 text-xs text-white/50">
                       By submitting, you agree to our{" "}
                       <Link
                         href="/privacy-policy"
-                        className="underline underline-offset-2 transition-colors duration-300 hover:text-gold"
+                        className="underline underline-offset-2 transition-colors duration-200 hover:text-orange focus:outline-none focus-visible:text-orange"
                       >
                         Privacy Policy
                       </Link>
@@ -560,11 +568,11 @@ export default function Contact() {
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <div className="rounded-sm border border-white/10 bg-charcoal/60 p-6 sm:p-8">
+            <div className="rounded-sm border border-white/10 bg-navy-light/70 p-5 sm:p-7 lg:p-8">
               <h3 className="font-display text-2xl font-bold text-white">
                 Talk to us directly
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/55">
+              <p className="mt-3 text-sm leading-relaxed text-white/70">
                 Prefer to talk? Our project managers are on site and on the
                 phone from Monday to Saturday.
               </p>
@@ -572,21 +580,21 @@ export default function Contact() {
               <ul className="mt-8 space-y-6">
                 {/* Address */}
                 <li className="flex gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-orange/60 text-orange">
                     <MapPin className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-white/45">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
                       Office
                     </p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/80">
+                    <p className="mt-1.5 text-sm leading-relaxed text-white/85">
                       {site.address.full}
                     </p>
                     <a
                       href={site.map.placeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-gold transition-colors duration-300 hover:text-gold-light"
+                      className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide text-orange transition-colors duration-200 hover:text-orange-hover focus:outline-none focus-visible:text-orange"
                     >
                       <Navigation className="h-3.5 w-3.5" aria-hidden="true" />
                       Get directions
@@ -596,17 +604,17 @@ export default function Contact() {
 
                 {/* Phone */}
                 <li className="flex gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-orange/60 text-orange">
                     <Phone className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-white/45">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
                       Phone
                     </p>
                     <a
                       href={`tel:${site.phoneHref}`}
                       onClick={() => track("call_click", { location: "contact" })}
-                      className="mt-1.5 block text-sm text-white/80 transition-colors duration-300 hover:text-gold"
+                      className="mt-1.5 block text-sm text-white/85 transition-colors duration-200 hover:text-orange focus:outline-none focus-visible:text-orange"
                     >
                       {site.phone}
                     </a>
@@ -615,16 +623,16 @@ export default function Contact() {
 
                 {/* Email */}
                 <li className="flex gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-orange/60 text-orange">
                     <Mail className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-white/45">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
                       Email
                     </p>
                     <a
                       href={`mailto:${site.email}`}
-                      className="mt-1.5 block break-all text-sm text-white/80 transition-colors duration-300 hover:text-gold"
+                      className="mt-1.5 block break-all text-sm text-white/85 transition-colors duration-200 hover:text-orange focus:outline-none focus-visible:text-orange"
                     >
                       {site.email}
                     </a>
@@ -633,20 +641,20 @@ export default function Contact() {
 
                 {/* Working hours */}
                 <li className="flex gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gold/40 text-gold">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-orange/60 text-orange">
                     <Clock className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-white/45">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-white/60">
                       Working hours
                     </p>
                     <dl className="mt-1.5 space-y-1">
                       {site.workingHours.map((slot) => (
                         <div
                           key={slot.days}
-                          className="flex flex-wrap gap-x-3 text-sm text-white/80"
+                          className="flex flex-wrap gap-x-3 text-sm text-white/85"
                         >
-                          <dt className="min-w-[130px] text-white/55">{slot.days}</dt>
+                          <dt className="min-w-[130px] text-white/65">{slot.days}</dt>
                           <dd>{slot.hours}</dd>
                         </div>
                       ))}
@@ -666,7 +674,7 @@ export default function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${site.name} on ${socialLabels[network]}`}
-                      className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 ease-smooth hover:border-gold hover:bg-gold/10 hover:text-gold"
+                      className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/80 transition-all duration-200 ease-smooth hover:border-orange hover:bg-orange/10 hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                     >
                       <Icon className="h-4 w-4" />
                     </a>

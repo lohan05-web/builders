@@ -18,11 +18,10 @@ const SOCIAL_NETWORKS: SocialNetwork[] = [
 ];
 
 interface FooterProps {
-  /** The services catalogue, resolved on the server. */
-  services: Service[];
+  services?: Service[];
 }
 
-export default function Footer({ services }: FooterProps) {
+export default function Footer({ services = [] }: FooterProps) {
   /** The company details, resolved on the server and shared via context. */
   const site = useSite();
   /** True while the embedded Studio is open. */
@@ -37,7 +36,7 @@ export default function Footer({ services }: FooterProps) {
   if (isStudio) return null;
 
   return (
-    <footer className="relative border-t border-gold bg-charcoal-900">
+    <footer className="relative border-t border-orange bg-navy-light">
       <div className="mx-auto max-w-7xl px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:px-10">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           {/* ----------------------------- Brand --------------------- */}
@@ -79,7 +78,7 @@ export default function Footer({ services }: FooterProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/55 transition-colors duration-300 hover:text-gold"
+                    className="text-sm text-white/55 transition-colors duration-300 hover:text-orange focus:outline-none focus-visible:text-orange"
                   >
                     {link.label}
                   </Link>
@@ -89,7 +88,7 @@ export default function Footer({ services }: FooterProps) {
               <li>
                 <Link
                   href="/#faq"
-                  className="text-sm text-white/55 transition-colors duration-300 hover:text-gold"
+                  className="text-sm text-white/55 transition-colors duration-300 hover:text-orange focus:outline-none focus-visible:text-orange"
                 >
                   FAQ
                 </Link>
@@ -109,7 +108,7 @@ export default function Footer({ services }: FooterProps) {
                 <li key={service.id}>
                   <Link
                     href="/#services"
-                    className="text-sm text-white/55 transition-colors duration-300 hover:text-gold"
+                    className="text-sm text-white/55 transition-colors duration-300 hover:text-orange focus:outline-none focus-visible:text-orange"
                   >
                     {service.title}
                   </Link>
@@ -155,7 +154,7 @@ export default function Footer({ services }: FooterProps) {
                 />
                 <a
                   href={`mailto:${site.email}`}
-                  className="break-all text-sm text-white/55 transition-colors duration-300 hover:text-gold"
+                  className="break-all text-sm text-white/55 transition-colors duration-300 hover:text-orange focus:outline-none focus-visible:text-orange"
                 >
                   {site.email}
                 </a>
@@ -186,7 +185,7 @@ export default function Footer({ services }: FooterProps) {
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
             <Link
               href="/privacy-policy"
-              className="text-xs text-white/40 transition-colors duration-300 hover:text-gold"
+              className="text-xs text-white/40 transition-colors duration-300 hover:text-orange focus:outline-none focus-visible:text-orange"
             >
               Privacy Policy
             </Link>
@@ -202,7 +201,7 @@ export default function Footer({ services }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${site.name} on ${socialLabels[network]}`}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/50 transition-all duration-300 ease-smooth hover:border-gold hover:text-gold"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/50 transition-all duration-300 ease-smooth hover:border-orange hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                   >
                     <Icon className="h-3.5 w-3.5" />
                   </a>
@@ -215,7 +214,7 @@ export default function Footer({ services }: FooterProps) {
               type="button"
               onClick={scrollToTop}
               aria-label="Back to top"
-              className="flex h-9 items-center gap-1.5 rounded-sm border border-gold px-3 text-[11px] font-semibold uppercase tracking-widest text-gold transition-colors duration-300 hover:bg-gold hover:text-charcoal"
+              className="flex h-9 items-center gap-1.5 rounded-sm border border-orange px-3 text-[11px] font-semibold uppercase tracking-widest text-orange transition-colors duration-300 hover:bg-orange hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
             >
               <ArrowUp className="h-3.5 w-3.5" aria-hidden="true" />
               Top

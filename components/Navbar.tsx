@@ -65,13 +65,10 @@ export default function Navbar() {
     <>
       <header
         className={[
-          "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-smooth",
-          // Inner pages have no hero behind the bar, so it starts solid.
-          !isHome
-            ? "border-b border-white/10 bg-charcoal"
-            : isScrolled
-              ? "border-b border-white/10 bg-charcoal/80 backdrop-blur-xl supports-[backdrop-filter]:bg-charcoal/60"
-              : "border-b border-transparent bg-transparent",
+          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+          isScrolled || !isHome
+            ? "border-b border-white/10 bg-navy"
+            : "border-b border-transparent bg-navy/95",
         ].join(" ")}
       >
         <nav
@@ -87,7 +84,7 @@ export default function Navbar() {
           >
             <span
               aria-hidden="true"
-              className="flex h-9 w-9 items-center justify-center rounded-sm border border-gold/60 font-display text-base font-bold text-gold transition-colors duration-300 group-hover:bg-gold group-hover:text-charcoal"
+              className="flex h-9 w-9 items-center justify-center border border-orange bg-orange/10 font-display text-base font-bold text-orange"
             >
               LM
             </span>
@@ -102,14 +99,9 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="group relative text-sm font-medium tracking-wide text-white/75 transition-colors duration-300 hover:text-gold"
+                  className="text-sm font-medium tracking-wide text-white/90 transition-colors duration-200 hover:text-orange"
                 >
                   {link.label}
-                  {/* Gold underline that grows on hover */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute -bottom-1.5 left-0 h-px w-0 bg-gold transition-all duration-300 ease-smooth group-hover:w-full"
-                  />
                 </Link>
               </li>
             ))}
@@ -117,32 +109,30 @@ export default function Navbar() {
 
           {/* --- Right-hand actions ------------------------------------ */}
           <div className="flex items-center gap-3">
-            {/* Phone number (desktop only) */}
             <a
               href={`tel:${site.phoneHref}`}
               onClick={() => track("call_click", { location: "navbar" })}
-              className="hidden items-center gap-2 text-sm text-white/70 transition-colors duration-300 hover:text-gold xl:flex"
+              className="hidden items-center gap-2 text-sm text-white/90 transition-colors duration-200 hover:text-orange xl:flex"
             >
               <Phone className="h-4 w-4" aria-hidden="true" />
               {site.phone}
             </a>
 
-            {/* Gold CTA */}
             <Link
               href="/#contact"
-              className="hidden rounded-sm bg-gold px-5 py-3 text-sm font-semibold tracking-wide text-charcoal transition-all duration-300 ease-smooth hover:bg-gold-light hover:shadow-lg hover:shadow-gold/20 sm:block xl:px-6"
+              className="hidden min-h-[44px] items-center rounded-sm bg-orange px-5 py-2 text-sm font-semibold tracking-wide text-white transition-colors duration-200 hover:bg-orange-hover sm:flex xl:px-6"
             >
-              Free Consultation
+              Get a Free Quote
             </Link>
 
             {/* Hamburger toggle (mobile + tablet) */}
             <button
               type="button"
               onClick={() => setIsMenuOpen((open) => !open)}
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
-              className="flex h-11 w-11 items-center justify-center rounded-sm border border-white/15 text-white transition-colors duration-300 hover:border-gold/60 hover:text-gold lg:hidden"
+              className="flex h-11 w-11 items-center justify-center border border-white/20 text-white transition-colors duration-200 hover:border-orange hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange lg:hidden"
             >
               {isMenuOpen ? (
                 <X className="h-5 w-5" aria-hidden="true" />
@@ -181,7 +171,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30, stiffness: 260 }}
-              className="fixed right-0 top-0 z-50 flex h-full w-[85%] max-w-sm flex-col border-l border-white/10 bg-charcoal-800 px-7 pb-10 pt-7 lg:hidden"
+              className="fixed right-0 top-0 z-50 flex h-full w-[85%] max-w-sm flex-col border-l border-white/10 bg-navy px-7 pb-10 pt-7 lg:hidden"
             >
               {/* Drawer header */}
               <div className="flex items-center justify-between">
@@ -191,8 +181,8 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={closeMenu}
-                  aria-label="Close menu"
-                  className="flex h-10 w-10 items-center justify-center rounded-sm border border-white/15 text-white transition-colors duration-300 hover:border-gold/60 hover:text-gold"
+                  aria-label="Close navigation"
+                  className="flex h-11 w-11 items-center justify-center border border-white/20 text-white transition-colors duration-200 hover:border-orange hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                 >
                   <X className="h-5 w-5" aria-hidden="true" />
                 </button>
@@ -214,9 +204,9 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={closeMenu}
-                      className="flex items-center gap-4 border-b border-white/5 py-4 font-display text-xl text-white/85 transition-colors duration-300 hover:text-gold"
+                      className="flex items-center gap-4 border-b border-white/5 py-4 font-display text-xl text-white/90 transition-colors duration-200 hover:text-orange focus:outline-none focus-visible:text-orange"
                     >
-                      <span className="text-xs font-sans text-gold/60">
+                      <span className="text-xs font-sans text-orange/80">
                         0{index + 1}
                       </span>
                       {link.label}
@@ -230,14 +220,14 @@ export default function Navbar() {
                 <Link
                   href="/#contact"
                   onClick={closeMenu}
-                  className="w-full rounded-sm bg-gold px-6 py-4 text-center text-sm font-semibold tracking-wide text-charcoal transition-colors duration-300 hover:bg-gold-light"
+                  className="w-full min-h-[44px] rounded-sm bg-orange px-6 py-3 text-center text-sm font-semibold tracking-wide text-white transition-colors duration-200 hover:bg-orange-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
-                  Free Consultation
+                  Get a Free Quote
                 </Link>
                 <a
                   href={`tel:${site.phoneHref}`}
                   onClick={closeMenu}
-                  className="flex w-full items-center justify-center gap-2 rounded-sm border border-white/15 px-6 py-4 text-sm text-white/80 transition-colors duration-300 hover:border-gold/60 hover:text-gold"
+                  className="flex w-full min-h-[44px] items-center justify-center gap-2 border border-white/20 px-6 py-3 text-sm text-white/90 transition-colors duration-200 hover:border-orange hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                 >
                   <Phone className="h-4 w-4" aria-hidden="true" />
                   {site.phone}

@@ -1,0 +1,25 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+node.exe : Failed to compile.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./app/(home)/page.tsx:21:8
+Type error: Property 'team' is missing in type '{}' but required in type 'AboutProps'.
+
+[0m [90m 19 |[39m       [33m<[39m[33mServices[39m services[33m=[39m{services} [33m/[39m[33m>[39m[0m
+[0m [90m 20 |[39m       [33m<[39m[33mProjects[39m projects[33m=[39m{projects} [33m/[39m[33m>[39m[0m
+[0m[31m[1m>[22m[39m[90m 21 |[39m       [33m<[39m[33mAbout[39m [33m/[39m[33m>[39m[0m
+[0m [90m    |[39m        [31m[1m^[22m[39m[0m
+[0m [90m 22 |[39m       [33m<[39m[33mProcess[39m [33m/[39m[33m>[39m[0m
+[0m [90m 23 |[39m       [33m<[39m[33mContact[39m [33m/[39m[33m>[39m[0m
+[0m [90m 24 |[39m     [33m<[39m[33m/[39m[33m>[39m[0m
+Next.js build worker exited with code: 1 and signal: null

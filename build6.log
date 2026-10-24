@@ -1,0 +1,28 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+node.exe : Failed to compile.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Failed to compile.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+./components/BeforeAfter.tsx:8:41
+Type error: Cannot find module '@/sanity/lib/types' or its corresponding type declarations.
+
+[0m [90m  6 |[39m [36mimport[39m { [33mMoveHorizontal[39m } [36mfrom[39m 
+[32m"lucide-react"[39m[33m;[39m[0m
+[0m [90m  7 |[39m [36mimport[39m { beforeAfter [36mas[39m fallbackBeforeAfter } [36mfrom[39m 
+[32m"@/data/projects"[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m  8 |[39m [36mimport[39m type { [33mBeforeAfterContent[39m } [36mfrom[39m 
+[32m"@/sanity/lib/types"[39m[33m;[39m[0m
+[0m [90m    |[39m                                         [31m[1m^[22m[39m[0m
+[0m [90m  9 |[39m[0m
+[0m [90m 10 |[39m [90m/** Keyboard nudge amount (px of percentage points) per arrow press. */[39m[0m
+[0m [90m 11 |[39m [36mconst[39m [33mKEYBOARD_STEP[39m [33m=[39m [35m3[39m[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

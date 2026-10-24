@@ -1,0 +1,3 @@
+﻿C:\Users\DELL\Desktop\lm builder\components\JsonLd.tsx
+C:\Users\DELL\Desktop\lm builder\components\SiteSettingsProvider.tsx
+C:\Users\DELL\Desktop\lm builder\components\Stats.tsx

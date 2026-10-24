@@ -1,18 +1,12 @@
-import { SITE_URL } from "@/data/site";
-import type { SiteSettings } from "@/sanity/lib/types";
+import { SITE_URL, site as localSite } from "@/data/site";
+
+type SiteSettings = typeof localSite;
 
 interface JsonLdProps {
-  /** The company details, resolved on the server. */
-  settings: SiteSettings;
+  settings?: SiteSettings;
 }
 
-/**
- * The organisation structured data published on every page.
- *
- * It tells search engines what the company is, where it is and how to get
- * in touch.
- */
-export default function JsonLd({ settings: site }: JsonLdProps) {
+export default function JsonLd({ settings: site = localSite }: JsonLdProps) {
   const openingHours = site.workingHours.map((slot) => {
     if (slot.days === "Sunday") return "Su By Appointment";
     if (slot.days === "Saturday") return "Sa 09:00-17:00";

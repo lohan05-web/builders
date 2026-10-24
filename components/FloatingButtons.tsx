@@ -6,6 +6,7 @@ import { MessageCircle, Phone } from "lucide-react";
 import { track } from "@vercel/analytics";
 import { useSite } from "@/components/SiteSettingsProvider";
 import { useIsStudio } from "@/components/useIsStudio";
+import { whatsappLink } from "@/data/site";
 
 /** How far the user has to scroll before the buttons fade in. */
 const REVEAL_AFTER_PX = 300;
@@ -49,7 +50,7 @@ export default function FloatingButtons() {
           >
             {/* --- WhatsApp ------------------------------------------- */}
             <a
-              href={site.whatsappLink}
+              href={whatsappLink(site.whatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => track("whatsapp_click", { location: "floating_button" })}
